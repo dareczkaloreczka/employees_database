@@ -1,9 +1,12 @@
-package employeesDB;
+package gui;
 
 import carsDB.Car;
 import carsDB.CarDB;
 import companiesDB.Company;
 import companiesDB.CompanyDB;
+import employeesDB.Employee;
+import employeesDB.EmployeeDataBase;
+import employeesDB.EmployeeMapper;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -14,9 +17,9 @@ import java.awt.event.ActionListener;
 
 import java.util.List;
 
-public class EmployeeTable extends JFrame{
+public class EmployeeView extends JFrame{
 
-    public EmployeeTable() throws HeadlessException {
+    public EmployeeView() throws HeadlessException {
 
         inicjalizacja();
     }

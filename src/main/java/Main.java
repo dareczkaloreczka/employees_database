@@ -1,4 +1,5 @@
-package employeesDB;
+
+import gui.EmployeeView;
 
 import javax.swing.*;
 
@@ -8,7 +9,7 @@ public class Main {
     SwingUtilities.invokeLater(new Runnable() {
         @Override
         public void run() {
-            EmployeeTable listaUserow = new EmployeeTable();
+            EmployeeView listaUserow = new EmployeeView();
             listaUserow.setVisible(true);
         }
     });

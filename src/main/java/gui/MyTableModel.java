@@ -1,4 +1,4 @@
-package employeesDB;
+package gui;
 
 import javax.swing.table.DefaultTableModel;
 
