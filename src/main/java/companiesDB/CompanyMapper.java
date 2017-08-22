@@ -1,5 +1,7 @@
 package companiesDB;
 
+import exceptions.NegativeNumberException;
+
 public class CompanyMapper {
 
     private static final int ID_IDX = 0;
@@ -15,8 +17,13 @@ public class CompanyMapper {
 
     public Company stringToCompany(String line){
         String[] companyArray = line.split("/");
-        Company company = new Company(Integer.parseInt(companyArray[ID_IDX]), companyArray[NAME_IDX],
-                companyArray[ADDRESS_IDX], Integer.parseInt(companyArray[NOE_IDX]));
+        Company company = null;
+        try {
+            company = new Company(Integer.parseInt(companyArray[ID_IDX]), companyArray[NAME_IDX],
+                    companyArray[ADDRESS_IDX], Integer.parseInt(companyArray[NOE_IDX]));
+        } catch (NegativeNumberException e) {
+            e.printStackTrace();
+        }
 
         return company;
     }

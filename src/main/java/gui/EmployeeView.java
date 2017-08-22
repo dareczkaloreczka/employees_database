@@ -7,6 +7,7 @@ import companiesDB.CompanyDB;
 import employeesDB.Employee;
 import employeesDB.EmployeeDataBase;
 import employeesDB.EmployeeMapper;
+import exceptions.NegativeNumberException;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -159,8 +160,13 @@ public class EmployeeView extends JFrame{
        addUserButton.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-               Employee newEmployee = new Employee(employeeList.size()+1, insertName.getText(), insertSurname.getText(),
-                            Integer.parseInt(insertAge.getText()), Integer.parseInt(insertCompanyId.getText()), Integer.parseInt(insertCarId.getText()));
+               Employee newEmployee = null;
+               try {
+                   newEmployee = new Employee(employeeList.size()+1, insertName.getText(), insertSurname.getText(),
+                                Integer.parseInt(insertAge.getText()), Integer.parseInt(insertCompanyId.getText()), Integer.parseInt(insertCarId.getText()));
+               } catch (NegativeNumberException e1) {
+                   System.out.println(e1.getMessage());
+               }
                employeeList.add(newEmployee);
                employeeDataBase.saveEmployeeToDB(newEmployee);
                insertName.setText("Insert first name:");
@@ -178,8 +184,13 @@ public class EmployeeView extends JFrame{
        addCarButton.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-               Car newCar = new Car(carList.size()+1, insertBrand.getText(), insertModel.getText(),
-                       insertYear.getText(), insertRegBoard.getText());
+               Car newCar = null;
+               try {
+                   newCar = new Car(carList.size()+1, insertBrand.getText(), insertModel.getText(),
+                           insertYear.getText(), insertRegBoard.getText());
+               } catch (NegativeNumberException e1) {
+                   System.out.println(e1.getMessage());
+               }
                carList.add(newCar);
                carDB.saveCarToDB(newCar);
                insertBrand.setText("Brand:");
@@ -196,8 +207,13 @@ public class EmployeeView extends JFrame{
        addCompanyButton.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-               Company newCompany = new Company(companyList.size() + 1, insertCompanyName.getText(),
-                       insertaddress.getText(), Integer.parseInt(insertNoE.getText()));
+               Company newCompany = null;
+               try {
+                   newCompany = new Company(companyList.size() + 1, insertCompanyName.getText(),
+                           insertaddress.getText(), Integer.parseInt(insertNoE.getText()));
+               } catch (NegativeNumberException e1) {
+                   System.out.println(e1.getMessage());
+               }
                companyList.add(newCompany);
                companyDB.saveCompanyToDB(newCompany);
                insertCompanyName.setText("Company name:");

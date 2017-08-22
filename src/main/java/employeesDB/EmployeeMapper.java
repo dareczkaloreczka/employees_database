@@ -1,5 +1,7 @@
 package employeesDB;
 
+import exceptions.NegativeNumberException;
+
 public class EmployeeMapper {
 
     private static final int ID_IDX = 0;
@@ -19,8 +21,13 @@ public class EmployeeMapper {
 
     public Employee stringtoEmployee(String line){
         String[] employeeArray = line.split("/");
-        Employee employee = new Employee(Integer.parseInt(employeeArray[ID_IDX]), employeeArray[NAME_IDX], employeeArray[SURNAME_IDX], Integer.parseInt(employeeArray[AGE_IDX]),
-                Integer.parseInt(employeeArray[COMPANY_IDX]),Integer.parseInt(employeeArray[CAR_IDX]));
+        Employee employee = null;
+        try {
+            employee = new Employee(Integer.parseInt(employeeArray[ID_IDX]), employeeArray[NAME_IDX], employeeArray[SURNAME_IDX], Integer.parseInt(employeeArray[AGE_IDX]),
+                    Integer.parseInt(employeeArray[COMPANY_IDX]),Integer.parseInt(employeeArray[CAR_IDX]));
+        } catch (NegativeNumberException e) {
+            e.printStackTrace();
+        }
 
         return employee;
     }

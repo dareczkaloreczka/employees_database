@@ -1,5 +1,7 @@
 package companiesDB;
 
+import exceptions.NegativeNumberException;
+
 public class Company {
 
     private int id;
@@ -7,11 +9,15 @@ public class Company {
     private String address;
     private int numberOfEmployees;
 
-    public Company(int id, String name, String address, int numberOfEmployees) {
-        this.id = id;
-        this.name = name;
-        this.address = address;
-        this.numberOfEmployees = numberOfEmployees;
+    public Company(int id, String name, String address, int numberOfEmployees) throws NegativeNumberException {
+        if (id <= 0 || numberOfEmployees< 0) {
+            throw new NegativeNumberException("Id and number of employees must be positive numbers.");
+        }
+            this.id = id;
+            this.name = name;
+            this.address = address;
+            this.numberOfEmployees = numberOfEmployees;
+
     }
 
     @Override

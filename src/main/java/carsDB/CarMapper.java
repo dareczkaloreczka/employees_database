@@ -1,5 +1,7 @@
 package carsDB;
 
+import exceptions.NegativeNumberException;
+
 public class CarMapper {
 
     private static final int ID_IDX = 0;
@@ -16,8 +18,13 @@ public class CarMapper {
 
     public Car stringToCar(String line){
         String [] carArray = line.split("/");
-        Car car = new Car(Integer.parseInt(carArray[ID_IDX]), carArray[BRAND_IDX],
-                carArray[MODEL_IDX], carArray[YEAR_IDX], carArray[BOARD_IDX]);
+        Car car = null;
+        try {
+            car = new Car(Integer.parseInt(carArray[ID_IDX]), carArray[BRAND_IDX],
+                    carArray[MODEL_IDX], carArray[YEAR_IDX], carArray[BOARD_IDX]);
+        } catch (NegativeNumberException e) {
+            e.printStackTrace();
+        }
         return car;
     }
 }

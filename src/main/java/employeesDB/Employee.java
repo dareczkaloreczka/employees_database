@@ -1,6 +1,7 @@
 package employeesDB;
 import carsDB.Car;
 import companiesDB.Company;
+import exceptions.NegativeNumberException;
 
 public class Employee {
 
@@ -12,7 +13,10 @@ public class Employee {
     private Car car;
     private EmployeeDataBase employeeDataBase = new EmployeeDataBase();
 
-    public Employee(int id, String name, String surname, int age, int companyId, int carId) {
+    public Employee(int id, String name, String surname, int age, int companyId, int carId)  throws NegativeNumberException {
+        if (id <= 0 || age < 0 || companyId <=0 || carId <= 0) {
+            throw new NegativeNumberException("Id's and age must be positive numbers.");
+        }
         this.id = id;
         this.name = name;
         this.surname = surname;
