@@ -54,6 +54,34 @@ public class Employee {
         return car;
     }
 
+    public void setNewValue(Employee employee){
+        this.id = employee.id;
+        this.name = employee.name;
+        this.surname = employee.surname;
+        this.car = employee.car;
+        this.company = employee.company;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    public void setCar(Car car) {
+        this.car = car;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

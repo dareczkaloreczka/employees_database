@@ -3,3 +3,4 @@
 3/SDA/Fordonska 343 85-789 Bydgoszcz/20
 4/Quiosque/Wyrzyska 6 85-450 Bydgoszcz/100
 5/LorekSukoDesign/Bladzim 66 86-005 Lniano/4
+8/Picipolo/Gdanska 59 85-450 Bydgoszcz/4

@@ -135,6 +135,13 @@ public class EmployeeView extends JFrame{
         JLabel company = new JLabel("Company:");
         JTextArea showCompany = new JTextArea("");
         showCompany.setEditable(false);
+        JPanel editPanel = new JPanel();
+        JButton editButton = new JButton("Edit");
+        JButton submitButton = new JButton("Submit");
+        JButton removeButton = new JButton("Remove");
+        editPanel.add(editButton);
+        editPanel.add(submitButton);
+        editPanel.add(removeButton);
         infoPanel.setLayout(new GridLayout(0, 1));
         infoPanel.add(employeeDetails);
         infoPanel.add(nameAndSurname);
@@ -145,6 +152,7 @@ public class EmployeeView extends JFrame{
         infoPanel.add(showCar);
         infoPanel.add(company);
         infoPanel.add(showCompany);
+        infoPanel.add(editPanel);
 
         JScrollPane scrollPanePanel = new JScrollPane(employeeJtable);
         scrollPanePanel.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -156,6 +164,63 @@ public class EmployeeView extends JFrame{
 
 
         setCurrentView();
+
+        editButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showNameAndSurname.setEditable(true);
+                showAge.setEditable(true);
+                showCar.setEditable(true);
+                showCompany.setEditable(true);
+            }
+        });
+
+        submitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (employeeJtable.getSelectedRow() > -1) {
+                    int row = employeeJtable.getSelectedRow();
+                    int index = Integer.parseInt((String) employeeJtable.getModel().getValueAt(row, 0));
+                    Employee em = employeeList.get(index - 1);
+                    String[] nameAndSurname = showNameAndSurname.getText().split(" ");
+                    em.setName(nameAndSurname[0]);
+                    em.setSurname(nameAndSurname[1]);
+                    em.setAge(Integer.parseInt(showAge.getText()));
+                    String[] carData = showCar.getText().split("\n");
+                    String [] carBasicData = carData[0].split(" ");
+                    String regBoard = carData[1];
+                    Car newCar = null;
+                    try {
+                        newCar = new Car(carList.size()+1, carBasicData[1], carBasicData[2], carBasicData[0], regBoard);
+                    } catch (NegativeNumberException e1) {
+                        e1.printStackTrace();
+                    }
+                    em.setCar(newCar);
+                    carList.add(newCar);
+                    carDB.saveCarToDB(newCar);
+                    String[] companyData = showCompany.getText().split("\n");
+                    Company newCompany = null;
+                    try {
+                        newCompany = new Company(companyList.size() + 1, companyData[0],
+                                companyData[1], Integer.parseInt(companyData[2].split(": ")[1]));
+                    } catch (NegativeNumberException e1) {
+                        System.out.println(e1.getMessage());
+                    }
+                    em.setCompany(newCompany);
+                    companyList.add(newCompany);
+                    companyDB.saveCompanyToDB(newCompany);
+
+                    employeeList.get(index - 1).setNewValue(em);
+                    employeeDataBase.saveEmployeeToDB(em);
+                    employeeTableModel.setRowCount(0);
+                    showNameAndSurname.setEditable(false);
+                    showAge.setEditable(false);
+                    showCar.setEditable(false);
+                    showCompany.setEditable(false);
+                    setCurrentView();
+                }
+            }
+        });
 
        addUserButton.addActionListener(new ActionListener() {
            @Override
