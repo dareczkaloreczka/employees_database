@@ -18,7 +18,7 @@ import java.awt.event.ActionListener;
 
 import java.util.List;
 
-public class EmployeeView extends JFrame{
+public class EmployeeView extends JFrame {
 
     public EmployeeView() throws HeadlessException {
 
@@ -27,20 +27,20 @@ public class EmployeeView extends JFrame{
 
     static List<Employee> employeeList;
     static List<Car> carList;
-    static  List<Company> companyList;
-    JTable employeeJtable;
-    MyTableModel employeeTableModel;
+    static List<Company> companyList;
+    static JTable employeeJtable;
+    static MyTableModel employeeTableModel;
     JTextField insertName;
     JTextField insertSurname;
     JTextField insertAge;
     JTextField insertCompanyId;
     JTextField insertCarId;
-    EmployeeDataBase employeeDataBase = new EmployeeDataBase();
-    CarDB carDB = new CarDB();
-    CompanyDB companyDB = new CompanyDB();
-    EmployeeMapper employeeMapper = new EmployeeMapper();
+    static EmployeeDataBase employeeDataBase = new EmployeeDataBase();
+    static CarDB carDB = new CarDB();
+    static CompanyDB companyDB = new CompanyDB();
+    static EmployeeMapper employeeMapper = new EmployeeMapper();
 
-    private void inicjalizacja(){
+    private void inicjalizacja() {
 
 
         setTitle("Employees Database");
@@ -76,7 +76,7 @@ public class EmployeeView extends JFrame{
         JPanel addEmployeePanel = new JPanel();
         JLabel addEmployee = new JLabel("Add Employee");
         JPanel employeePanel = new JPanel();
-        addEmployeePanel.setLayout(new GridLayout(3,2));
+        addEmployeePanel.setLayout(new GridLayout(3, 2));
         addEmployeePanel.add(insertName);
         addEmployeePanel.add(insertSurname);
         addEmployeePanel.add(insertAge);
@@ -87,7 +87,7 @@ public class EmployeeView extends JFrame{
         JPanel addCarPanel = new JPanel();
         JLabel addCar = new JLabel("Add Car");
         JPanel carPanel = new JPanel();
-        addCarPanel.setLayout(new GridLayout(3,2));
+        addCarPanel.setLayout(new GridLayout(3, 2));
         addCarPanel.add(insertBrand);
         addCarPanel.add(insertModel);
         addCarPanel.add(insertYear);
@@ -97,26 +97,26 @@ public class EmployeeView extends JFrame{
         JPanel addCompanyPanel = new JPanel();
         JLabel addCompany = new JLabel("Add Company");
         JPanel companyPanel = new JPanel();
-        addCompanyPanel.setLayout(new GridLayout(3,2));
+        addCompanyPanel.setLayout(new GridLayout(3, 2));
         addCompanyPanel.add(insertCompanyName);
         addCompanyPanel.add(insertaddress);
         addCompanyPanel.add(insertNoE);
         addCompanyPanel.add(addCompanyButton);
 
-        employeePanel.setLayout(new GridLayout(0,1));
+        employeePanel.setLayout(new GridLayout(0, 1));
         employeePanel.add(addEmployee);
         employeePanel.add(addEmployeePanel);
 
-        carPanel.setLayout(new GridLayout(0,1));
-        carPanel.add( addCar);
-        carPanel.add( addCarPanel);
+        carPanel.setLayout(new GridLayout(0, 1));
+        carPanel.add(addCar);
+        carPanel.add(addCarPanel);
 
-        companyPanel.setLayout(new GridLayout(0,1));
+        companyPanel.setLayout(new GridLayout(0, 1));
         companyPanel.add(addCompany);
-        companyPanel.add( addCompanyPanel);
+        companyPanel.add(addCompanyPanel);
 
         JPanel addingPanel = new JPanel();
-        addingPanel.setLayout(new GridLayout(3, 1) );
+        addingPanel.setLayout(new GridLayout(3, 1));
         addingPanel.add(employeePanel);
         addingPanel.add(carPanel);
         addingPanel.add(companyPanel);
@@ -137,10 +137,8 @@ public class EmployeeView extends JFrame{
         showCompany.setEditable(false);
         JPanel editPanel = new JPanel();
         JButton editButton = new JButton("Edit");
-        JButton submitButton = new JButton("Submit");
         JButton removeButton = new JButton("Remove");
         editPanel.add(editButton);
-        editPanel.add(submitButton);
         editPanel.add(removeButton);
         infoPanel.setLayout(new GridLayout(0, 1));
         infoPanel.add(employeeDetails);
@@ -159,7 +157,7 @@ public class EmployeeView extends JFrame{
         scrollPanePanel.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         getContentPane().add(BorderLayout.WEST, scrollPanePanel);
-        getContentPane().add(BorderLayout.EAST, addingPanel );
+        getContentPane().add(BorderLayout.EAST, addingPanel);
         getContentPane().add(BorderLayout.CENTER, infoPanel);
 
 
@@ -168,153 +166,120 @@ public class EmployeeView extends JFrame{
         editButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                showNameAndSurname.setEditable(true);
-                showAge.setEditable(true);
-                showCar.setEditable(true);
-                showCompany.setEditable(true);
-            }
-        });
-
-        submitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
                 if (employeeJtable.getSelectedRow() > -1) {
                     int row = employeeJtable.getSelectedRow();
                     int index = Integer.parseInt((String) employeeJtable.getModel().getValueAt(row, 0));
                     Employee em = employeeList.get(index - 1);
-                    String[] nameAndSurname = showNameAndSurname.getText().split(" ");
-                    em.setName(nameAndSurname[0]);
-                    em.setSurname(nameAndSurname[1]);
-                    em.setAge(Integer.parseInt(showAge.getText()));
-                    String[] carData = showCar.getText().split("\n");
-                    String [] carBasicData = carData[0].split(" ");
-                    String regBoard = carData[1];
-                    Car newCar = null;
+                    EditWindow editWindow = new EditWindow(em);
+                    editWindow.setVisible(true);
+
+
+                }
+            }
+            });
+
+
+       addUserButton.addActionListener(new
+
+            ActionListener() {
+                @Override
+                public void actionPerformed (ActionEvent e){
+                    Employee newEmployee = null;
                     try {
-                        newCar = new Car(carList.size()+1, carBasicData[1], carBasicData[2], carBasicData[0], regBoard);
-                    } catch (NegativeNumberException e1) {
-                        e1.printStackTrace();
-                    }
-                    em.setCar(newCar);
-                    carList.add(newCar);
-                    carDB.saveCarToDB(newCar);
-                    String[] companyData = showCompany.getText().split("\n");
-                    Company newCompany = null;
-                    try {
-                        newCompany = new Company(companyList.size() + 1, companyData[0],
-                                companyData[1], Integer.parseInt(companyData[2].split(": ")[1]));
+                        newEmployee = new Employee(employeeList.size() + 1, insertName.getText(), insertSurname.getText(),
+                                Integer.parseInt(insertAge.getText()), Integer.parseInt(insertCompanyId.getText()), Integer.parseInt(insertCarId.getText()));
                     } catch (NegativeNumberException e1) {
                         System.out.println(e1.getMessage());
                     }
-                    em.setCompany(newCompany);
-                    companyList.add(newCompany);
-                    companyDB.saveCompanyToDB(newCompany);
+                    employeeList.add(newEmployee);
+                    employeeDataBase.saveEmployeeToDB(newEmployee);
+                    insertName.setText("Insert first name:");
+                    insertAge.requestFocus();
+                    insertSurname.setText("Last Name:");
+                    insertAge.setText("Age:");
+                    insertCompanyId.setText("Company ID:");
+                    insertCarId.setText("Car ID:");
 
-                    employeeList.get(index - 1).setNewValue(em);
-                    employeeDataBase.saveEmployeeToDB(em);
                     employeeTableModel.setRowCount(0);
-                    showNameAndSurname.setEditable(false);
-                    showAge.setEditable(false);
-                    showCar.setEditable(false);
-                    showCompany.setEditable(false);
                     setCurrentView();
                 }
-            }
-        });
+            });
 
-       addUserButton.addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               Employee newEmployee = null;
-               try {
-                   newEmployee = new Employee(employeeList.size()+1, insertName.getText(), insertSurname.getText(),
-                                Integer.parseInt(insertAge.getText()), Integer.parseInt(insertCompanyId.getText()), Integer.parseInt(insertCarId.getText()));
-               } catch (NegativeNumberException e1) {
-                   System.out.println(e1.getMessage());
-               }
-               employeeList.add(newEmployee);
-               employeeDataBase.saveEmployeeToDB(newEmployee);
-               insertName.setText("Insert first name:");
-               insertAge.requestFocus();
-               insertSurname.setText("Last Name:");
-               insertAge.setText("Age:");
-               insertCompanyId.setText("Company ID:");
-               insertCarId.setText("Car ID:");
+       addCarButton.addActionListener(new
 
-               employeeTableModel.setRowCount(0);
-               setCurrentView();
-           }
-       });
+            ActionListener() {
+                @Override
+                public void actionPerformed (ActionEvent e){
+                    Car newCar = null;
+                    try {
+                        newCar = new Car(carList.size() + 1, insertBrand.getText(), insertModel.getText(),
+                                insertYear.getText(), insertRegBoard.getText());
+                    } catch (NegativeNumberException e1) {
+                        System.out.println(e1.getMessage());
+                    }
+                    carList.add(newCar);
+                    carDB.saveCarToDB(newCar);
+                    insertBrand.setText("Brand:");
+                    insertModel.setText("Model:");
+                    insertYear.setText("Year:");
+                    insertRegBoard.setText("Reg number:");
 
-       addCarButton.addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               Car newCar = null;
-               try {
-                   newCar = new Car(carList.size()+1, insertBrand.getText(), insertModel.getText(),
-                           insertYear.getText(), insertRegBoard.getText());
-               } catch (NegativeNumberException e1) {
-                   System.out.println(e1.getMessage());
-               }
-               carList.add(newCar);
-               carDB.saveCarToDB(newCar);
-               insertBrand.setText("Brand:");
-               insertModel.setText("Model:");
-               insertYear.setText("Year:");
-               insertRegBoard.setText("Reg number:");
+                    employeeTableModel.setRowCount(0);
+                    setCurrentView();
 
-               employeeTableModel.setRowCount(0);
-               setCurrentView();
+                }
+            });
 
-           }
-       });
+       addCompanyButton.addActionListener(new
 
-       addCompanyButton.addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               Company newCompany = null;
-               try {
-                   newCompany = new Company(companyList.size() + 1, insertCompanyName.getText(),
-                           insertaddress.getText(), Integer.parseInt(insertNoE.getText()));
-               } catch (NegativeNumberException e1) {
-                   System.out.println(e1.getMessage());
-               }
-               companyList.add(newCompany);
-               companyDB.saveCompanyToDB(newCompany);
-               insertCompanyName.setText("Company name:");
-               insertaddress.setText("Address:");
-               insertNoE.setText("Number of employees:");
-           }
-       });
+            ActionListener() {
+                @Override
+                public void actionPerformed (ActionEvent e){
+                    Company newCompany = null;
+                    try {
+                        newCompany = new Company(companyList.size() + 1, insertCompanyName.getText(),
+                                insertaddress.getText(), Integer.parseInt(insertNoE.getText()));
+                    } catch (NegativeNumberException e1) {
+                        System.out.println(e1.getMessage());
+                    }
+                    companyList.add(newCompany);
+                    companyDB.saveCompanyToDB(newCompany);
+                    insertCompanyName.setText("Company name:");
+                    insertaddress.setText("Address:");
+                    insertNoE.setText("Number of employees:");
+                }
+            });
 
-       employeeJtable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-           @Override
-           public void valueChanged(ListSelectionEvent e) {
-               if (employeeJtable.getSelectedRow() > - 1){
-                   int row = employeeJtable.getSelectedRow();
-                   int index  = Integer.parseInt((String)employeeJtable.getModel().getValueAt(row, 0));
-                   Employee em = employeeList.get(index-1);
-                   showNameAndSurname.setText(em.getName() + " "+  em.getSurname());
-                   showAge.setText(String.valueOf(em.getAge()));
-                   showCar.setText(em.getCar().getProductionYear() + " " + em.getCar().getBrand()
-                           + " " + em.getCar().getModel() + "\n" + em.getCar().getRegBoard());
-                   showCompany.setText(em.getCompany().getName() + "\n" + em.getCompany().getAddress() + "\n"
-                           + "number of employees: " + String.valueOf(em.getCompany().getNumberOfEmployees()));
-               }
-           }
-       });
+       employeeJtable.getSelectionModel().
 
-    }
+            addListSelectionListener(new ListSelectionListener() {
+                @Override
+                public void valueChanged (ListSelectionEvent e){
+                    if (employeeJtable.getSelectedRow() > -1) {
+                        int row = employeeJtable.getSelectedRow();
+                        int index = Integer.parseInt((String) employeeJtable.getModel().getValueAt(row, 0));
+                        Employee em = employeeList.get(index - 1);
+                        showNameAndSurname.setText(em.getName() + " " + em.getSurname());
+                        showAge.setText(String.valueOf(em.getAge()));
+                        showCar.setText(em.getCar().getProductionYear() + " " + em.getCar().getBrand()
+                                + " " + em.getCar().getModel() + "\n" + em.getCar().getRegBoard());
+                        showCompany.setText(em.getCompany().getName() + "\n" + em.getCompany().getAddress() + "\n"
+                                + "number of employees: " + String.valueOf(em.getCompany().getNumberOfEmployees()));
+                    }
+                }
+            });
 
-    public void setCurrentView(){
+        }
 
-     employeeList = employeeDataBase.getEmployeeListFromDB();
-     carList = carDB.getCarListFromDB();
-     companyList = companyDB.getCompanyListFromDB();
-     for (Employee employee : employeeList){
-         String [] userData  = {String.valueOf(employee.getId()), employee.getName(), employee.getSurname()};
-         employeeTableModel.addRow(userData);
+    public static void setCurrentView() {
 
-     }
+        employeeList = employeeDataBase.getEmployeeListFromDB();
+        carList = carDB.getCarListFromDB();
+        companyList = companyDB.getCompanyListFromDB();
+        for (Employee employee : employeeList) {
+            String[] userData = {String.valueOf(employee.getId()), employee.getName(), employee.getSurname()};
+            employeeTableModel.addRow(userData);
+
+        }
     }
 }
