@@ -10,8 +10,8 @@ public class Company {
     private int numberOfEmployees;
 
     public Company(int id, String name, String address, int numberOfEmployees) throws NegativeNumberException {
-        if (id <= 0 || numberOfEmployees< 0) {
-            throw new NegativeNumberException("Id and number of employees must be positive numbers.");
+        if (numberOfEmployees< 0) {
+            throw new NegativeNumberException("Number of employees must be a positive number.");
         }
             this.id = id;
             this.name = name;

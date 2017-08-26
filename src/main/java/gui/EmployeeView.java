@@ -176,7 +176,7 @@ public class EmployeeView extends JFrame {
 
                 }
             }
-            });
+        });
 
         removeButton.addActionListener(new ActionListener() {
             @Override
@@ -187,103 +187,91 @@ public class EmployeeView extends JFrame {
                     employeeDataBase.removeEmployeeFromDB(employeeList.get(index - 1));
                     EmployeeView.employeeTableModel.setRowCount(0);
                     EmployeeView.setCurrentView();
-            }
+                }
             }
         });
 
 
-       addUserButton.addActionListener(new
-
-            ActionListener() {
-                @Override
-                public void actionPerformed (ActionEvent e){
-                    Employee newEmployee = null;
-                    try {
-                        newEmployee = new Employee(employeeList.size() + 1, insertName.getText(), insertSurname.getText(),
-                                Integer.parseInt(insertAge.getText()), Integer.parseInt(insertCompanyId.getText()), Integer.parseInt(insertCarId.getText()));
-                    } catch (NegativeNumberException e1) {
-                        System.out.println(e1.getMessage());
-                    }
+        addUserButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Employee newEmployee = null;
+                try {
+                    newEmployee = new Employee(employeeList.size() + 1, insertName.getText(), insertSurname.getText(),
+                            Integer.parseInt(insertAge.getText()), Integer.parseInt(insertCompanyId.getText()), Integer.parseInt(insertCarId.getText()));
                     employeeList.add(newEmployee);
                     employeeDataBase.saveEmployeeToDB(newEmployee);
-                    insertName.setText("Insert first name:");
-                    insertAge.requestFocus();
-                    insertSurname.setText("Last Name:");
-                    insertAge.setText("Age:");
-                    insertCompanyId.setText("Company ID:");
-                    insertCarId.setText("Car ID:");
-
-                    employeeTableModel.setRowCount(0);
-                    setCurrentView();
+                } catch (NegativeNumberException e1) {
+                    JOptionPane.showMessageDialog(null, "Age/ID must be a positive number!");
                 }
-            });
+                insertName.setText("Insert first name:");
+                insertAge.requestFocus();
+                insertSurname.setText("Last Name:");
+                insertAge.setText("Age:");
+                insertCompanyId.setText("Company ID:");
+                insertCarId.setText("Car ID:");
 
-       addCarButton.addActionListener(new
+                employeeTableModel.setRowCount(0);
+                setCurrentView();
+            }
+        });
 
-            ActionListener() {
+        addCarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Car newCar = null;
+                newCar = new Car(carList.size() + 1, insertBrand.getText(), insertModel.getText(),
+                        insertYear.getText(), insertRegBoard.getText());
+                carList.add(newCar);
+                carDB.saveCarToDB(newCar);
+                insertBrand.setText("Brand:");
+                insertModel.setText("Model:");
+                insertYear.setText("Year:");
+                insertRegBoard.setText("Reg number:");
+
+                employeeTableModel.setRowCount(0);
+                setCurrentView();
+
+            }
+        });
+
+        addCompanyButton.addActionListener(new ActionListener() {
                 @Override
-                public void actionPerformed (ActionEvent e){
-                    Car newCar = null;
-                    try {
-                        newCar = new Car(carList.size() + 1, insertBrand.getText(), insertModel.getText(),
-                                insertYear.getText(), insertRegBoard.getText());
-                    } catch (NegativeNumberException e1) {
-                        System.out.println(e1.getMessage());
-                    }
-                    carList.add(newCar);
-                    carDB.saveCarToDB(newCar);
-                    insertBrand.setText("Brand:");
-                    insertModel.setText("Model:");
-                    insertYear.setText("Year:");
-                    insertRegBoard.setText("Reg number:");
-
-                    employeeTableModel.setRowCount(0);
-                    setCurrentView();
-
-                }
-            });
-
-       addCompanyButton.addActionListener(new
-
-            ActionListener() {
-                @Override
-                public void actionPerformed (ActionEvent e){
+                  public void actionPerformed(ActionEvent e) {
                     Company newCompany = null;
                     try {
-                        newCompany = new Company(companyList.size() + 1, insertCompanyName.getText(),
-                                insertaddress.getText(), Integer.parseInt(insertNoE.getText()));
-                    } catch (NegativeNumberException e1) {
-                        System.out.println(e1.getMessage());
-                    }
-                    companyList.add(newCompany);
-                    companyDB.saveCompanyToDB(newCompany);
+                         newCompany = new Company(companyList.size() + 1, insertCompanyName.getText(),
+                         insertaddress.getText(), Integer.parseInt(insertNoE.getText()));
+                        companyList.add(newCompany);
+                        companyDB.saveCompanyToDB(newCompany);
+                        } catch (NegativeNumberException e1) {
+                            JOptionPane.showMessageDialog(null, "Number of employees must be a positive number!");
+                        }
+
                     insertCompanyName.setText("Company name:");
                     insertaddress.setText("Address:");
                     insertNoE.setText("Number of employees:");
                 }
-            });
+        });
 
-       employeeJtable.getSelectionModel().
-
-            addListSelectionListener(new ListSelectionListener() {
-                @Override
-                public void valueChanged (ListSelectionEvent e){
-                    if (employeeJtable.getSelectedRow() > -1) {
-                        int row = employeeJtable.getSelectedRow();
-                        int index = Integer.parseInt((String) employeeJtable.getModel().getValueAt(row, 0));
-                        Employee em = employeeList.get(index - 1);
-                        showNameAndSurname.setText(em.getName() + " " + em.getSurname());
-                        showAge.setText(String.valueOf(em.getAge()));
-                        showCar.setText(em.getCar().getProductionYear() + " " + em.getCar().getBrand()
-                                + " " + em.getCar().getModel() + "\n" + em.getCar().getRegBoard());
-                        showCompany.setText(em.getCompany().getName() + "\n" + em.getCompany().getAddress() + "\n"
-                                + "number of employees: " + String.valueOf(em.getCompany().getNumberOfEmployees()));
+        employeeJtable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+                    @Override
+                    public void valueChanged(ListSelectionEvent e) {
+                        if (employeeJtable.getSelectedRow() > -1) {
+                            int row = employeeJtable.getSelectedRow();
+                            int index = Integer.parseInt((String) employeeJtable.getModel().getValueAt(row, 0));
+                            Employee em = employeeList.get(index - 1);
+                            showNameAndSurname.setText(em.getName() + " " + em.getSurname());
+                            showAge.setText(String.valueOf(em.getAge()));
+                            showCar.setText(em.getCar().getProductionYear() + " " + em.getCar().getBrand()
+                                    + " " + em.getCar().getModel() + "\n" + em.getCar().getRegBoard());
+                            showCompany.setText(em.getCompany().getName() + "\n" + em.getCompany().getAddress() + "\n"
+                                    + "number of employees: " + String.valueOf(em.getCompany().getNumberOfEmployees()));
+                        }
                     }
-                }
-            });
+                });
 
-        }
-
+    }
     public static void setCurrentView() {
 
         employeeList = employeeDataBase.getEmployeeListFromDB();

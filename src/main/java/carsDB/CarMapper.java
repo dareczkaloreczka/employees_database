@@ -19,12 +19,8 @@ public class CarMapper {
     public Car stringToCar(String line){
         String [] carArray = line.split("/");
         Car car = null;
-        try {
-            car = new Car(Integer.parseInt(carArray[ID_IDX]), carArray[BRAND_IDX],
-                    carArray[MODEL_IDX], carArray[YEAR_IDX], carArray[BOARD_IDX]);
-        } catch (NegativeNumberException e) {
-            e.printStackTrace();
-        }
+        car = new Car(Integer.parseInt(carArray[ID_IDX]), carArray[BRAND_IDX],
+                carArray[MODEL_IDX], carArray[YEAR_IDX], carArray[BOARD_IDX]);
         return car;
     }
 }

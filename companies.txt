@@ -1,6 +1,6 @@
-1/Atos/Crash Street 1 85-201 Bydgoszcz/300
-2/WLZ/Szubinska 155 85-501 Bydgoszcz/200
-3/SDA/Fordonska 343 85-789 Bydgoszcz/20
-4/Quiosque/Wyrzyska 6 85-450 Bydgoszcz/100
-5/LorekSukoDesign/Bladzim 66 86-005 Lniano/4
-8/Picipolo/Gdanska 59 85-450 Bydgoszcz/4
+1/Atos/Krasz Street 1 Bydgoszcz/3000
+2/WZL/Szubinska 400 Bydgoszcz/300
+3/QSQ/Wyrzyska 8 Bygdoszcz/50
+4/JavaMasters/Juniorska 14 Poznan/4
+5/Code Killaz/Jezycka 666 Poznan/6
+6/Bug hunters/Bladzimska 5 Bydgoszcz/33

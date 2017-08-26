@@ -8,10 +8,7 @@ public class Car {
     private String productionYear;
     private String regBoard;
 
-    public Car(int id, String brand, String model, String productionYear, String regBoard) throws NegativeNumberException{
-        if (id <= 0){
-            throw new NegativeNumberException("Id must be a positive number.");
-        }
+    public Car(int id, String brand, String model, String productionYear, String regBoard) {
         this.id = id;
         this.brand = brand;
         this.model = model;

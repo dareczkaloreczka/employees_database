@@ -54,7 +54,10 @@ public class Employee {
         return car;
     }
 
-    public void setNewValue(Employee employee){
+    public void setNewValue(Employee employee)throws NegativeNumberException{
+        if (id <= 0 || age < 0 ) {
+            throw new NegativeNumberException("Id and age must be positive numbers.");
+        }
         this.id = employee.id;
         this.name = employee.name;
         this.surname = employee.surname;
@@ -62,9 +65,7 @@ public class Employee {
         this.company = employee.company;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+
 
     public void setName(String name) {
         this.name = name;
@@ -74,7 +75,10 @@ public class Employee {
         this.surname = surname;
     }
 
-    public void setAge(int age) {
+    public void setAge(int age) throws NegativeNumberException{
+        if ( age < 0 ) {
+            throw new NegativeNumberException("Age must be a positive number.");
+        }
         this.age = age;
     }
 

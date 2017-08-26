@@ -14,6 +14,7 @@ import companiesDB.Company;
 import companiesDB.CompanyDB;
 import employeesDB.Employee;
 import employeesDB.EmployeeDataBase;
+import exceptions.NegativeNumberException;
 
 public class EditWindow extends JFrame {
 
@@ -95,21 +96,14 @@ public class EditWindow extends JFrame {
     public static Employee editEmployee (Employee em){
         em.setName(name.getText());
         em.setSurname(surname.getText());
-        em.setAge(Integer.parseInt(age.getText()));
-        String carName = (String) carList.getSelectedItem();
-        String carModel = carName.split(" ")[1];
-        for (Car c : cars){
-            if (c.getModel().equalsIgnoreCase(carModel)){
-                em.setCar(c);
-            }
+        try {
+            em.setAge(Integer.parseInt(age.getText()));
+            em.setName(name.getText());
+            em.setSurname(surname.getText());
+
+        } catch (NegativeNumberException e) {
+            JOptionPane.showMessageDialog(null, "Age/ID must be a positive number!");
         }
-        String companyName = (String) companyList.getSelectedItem();
-        for (Company co : companies){
-            if (co.getName().equalsIgnoreCase(companyName)){
-                em.setCompany(co);
-            }
-        }
-        employeeList.get(em.getId() -1 ).setNewValue(em);
 
 
         EmployeeView.employeeDataBase.saveEmployeeToDB(em);
