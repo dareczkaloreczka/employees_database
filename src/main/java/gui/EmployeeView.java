@@ -178,6 +178,19 @@ public class EmployeeView extends JFrame {
             }
             });
 
+        removeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (employeeJtable.getSelectedRow() > -1) {
+                    int row = employeeJtable.getSelectedRow();
+                    int index = Integer.parseInt((String) employeeJtable.getModel().getValueAt(row, 0));
+                    employeeDataBase.removeEmployeeFromDB(employeeList.get(index - 1));
+                    EmployeeView.employeeTableModel.setRowCount(0);
+                    EmployeeView.setCurrentView();
+            }
+            }
+        });
+
 
        addUserButton.addActionListener(new
 

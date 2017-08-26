@@ -31,7 +31,7 @@ public class EditWindow extends JFrame {
 
     public EditWindow(Employee em) throws HeadlessException {
 
-        setSize(400, 500);
+        setSize(400, 250);
         setTitle("Edit employee data");
         JPanel mainPanel = new JPanel();
         JLabel nameLabel = new JLabel("Name: ");
@@ -53,6 +53,13 @@ public class EditWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
               editEmployee(em);
+            }
+        });
+
+        cancel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
             }
         });
 
@@ -82,8 +89,9 @@ public class EditWindow extends JFrame {
         mainPanel.add(buttonPanel);
         getContentPane().add(mainPanel);
 
-
     }
+
+
     public static Employee editEmployee (Employee em){
         em.setName(name.getText());
         em.setSurname(surname.getText());
