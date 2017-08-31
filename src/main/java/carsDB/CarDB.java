@@ -10,11 +10,12 @@ public class CarDB {
     List<Car> carList;
     CarMapper carMapper = new CarMapper();
     private static final String CARS = "cars.txt";
+    private static File source = new File(CARS);
 
     public List<Car> getCarListFromDB(){
         carList = new ArrayList<>();
         String line;
-        try (BufferedReader carReader = new BufferedReader(new FileReader(CARS))) {
+        try (BufferedReader carReader = new BufferedReader(new FileReader(source))) {
             while ((line = carReader.readLine()) != null) {
                 carList.add(carMapper.stringToCar(line));
             }
@@ -28,7 +29,7 @@ public class CarDB {
     }
     public void saveCarToDB(Car car){
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(CARS));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(source));
             for (Car ca : carList){
                 writer.write(carMapper.carToString(ca));
                 writer.write("\n");

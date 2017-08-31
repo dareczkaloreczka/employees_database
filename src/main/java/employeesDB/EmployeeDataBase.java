@@ -19,11 +19,13 @@ public class EmployeeDataBase {
     CarDB carDB = new CarDB();
     private static final String EMPLOYEES = "users.txt";
     private static final String TEMP = "users2.txt";
+    private static File source = new File(EMPLOYEES);
+    private static File temp = new File(TEMP);
 
     public List<Employee> getEmployeeListFromDB() {
         employeeList = new ArrayList<>();
         String line;
-        try (BufferedReader employeeReader = new BufferedReader(new FileReader(EMPLOYEES))) {
+        try (BufferedReader employeeReader = new BufferedReader(new FileReader(source))) {
             while ((line = employeeReader.readLine()) != null) {
                 employeeList.add(employeeMapper.stringtoEmployee(line));
             }
@@ -38,7 +40,7 @@ public class EmployeeDataBase {
 
     public void saveEmployeeToDB(Employee employee) {
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(EMPLOYEES));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(source));
             for (Employee u : employeeList) {
                 writer.write(employeeMapper.employeeToString(u));
                 writer.write("\n");
@@ -50,14 +52,12 @@ public class EmployeeDataBase {
     }
 
     public void removeEmployeeFromDB(Employee employee) {
-        File origin = new File(EMPLOYEES);
-        File temp = new File(TEMP);
 
         try {
             String line;
             String toBeRemoved = employeeMapper.employeeToString(employee);
-            BufferedReader reader = new BufferedReader(new FileReader(EMPLOYEES));
-            BufferedWriter writer = new BufferedWriter(new FileWriter(TEMP)); // zmienic plik na temp
+            BufferedReader reader = new BufferedReader(new FileReader(source));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(temp)); // zmienic plik na temp
             while ((line = reader.readLine()) != null) {
                 int currentId = Integer.parseInt(line.split("/")[0]);
                 if (currentId != employee.getId()){
@@ -72,8 +72,8 @@ public class EmployeeDataBase {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        boolean successfull = origin.delete();
-        boolean successfull2 = temp.renameTo(origin);
+        boolean successfull = source.delete();
+        boolean successfull2 = temp.renameTo(source);
     }
 
     public Company idToCompany(int id) {
