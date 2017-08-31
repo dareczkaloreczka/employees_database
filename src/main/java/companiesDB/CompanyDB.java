@@ -1,6 +1,8 @@
 package companiesDB;
 
 
+import exceptions.CompanyMapperException;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +24,8 @@ public class CompanyDB {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (CompanyMapperException e) {
             e.printStackTrace();
         }
         return companyList;

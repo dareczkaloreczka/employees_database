@@ -1,5 +1,6 @@
 package carsDB;
 
+import exceptions.CarMapperException;
 import exceptions.NegativeNumberException;
 
 public class CarMapper {
@@ -16,8 +17,11 @@ public class CarMapper {
         return carLine;
     }
 
-    public Car stringToCar(String line){
+    public Car stringToCar(String line) throws CarMapperException {
         String [] carArray = line.split("/");
+        if (carArray.length != 5){
+            throw new CarMapperException("Invalid data format.");
+        }
         Car car = null;
         car = new Car(Integer.parseInt(carArray[ID_IDX]), carArray[BRAND_IDX],
                 carArray[MODEL_IDX], carArray[YEAR_IDX], carArray[BOARD_IDX]);

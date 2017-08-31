@@ -1,5 +1,6 @@
 package companiesDB;
 
+import exceptions.CompanyMapperException;
 import exceptions.NegativeNumberException;
 
 public class CompanyMapper {
@@ -15,8 +16,11 @@ public class CompanyMapper {
         return companyLine;
     }
 
-    public Company stringToCompany(String line){
+    public Company stringToCompany(String line) throws CompanyMapperException {
         String[] companyArray = line.split("/");
+        if (companyArray.length != 4){
+            throw new CompanyMapperException("Invalid data format");
+        }
         Company company = null;
         try {
             company = new Company(Integer.parseInt(companyArray[ID_IDX]), companyArray[NAME_IDX],

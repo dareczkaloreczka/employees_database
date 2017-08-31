@@ -4,6 +4,7 @@ import carsDB.Car;
 import carsDB.CarDB;
 import companiesDB.Company;
 import companiesDB.CompanyDB;
+import exceptions.EmployeeMapperException;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -33,6 +34,8 @@ public class EmployeeDataBase {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (EmployeeMapperException e) {
             e.printStackTrace();
         }
         return employeeList;

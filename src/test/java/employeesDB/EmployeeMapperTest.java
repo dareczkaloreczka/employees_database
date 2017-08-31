@@ -1,5 +1,6 @@
 package employeesDB;
 
+import exceptions.EmployeeMapperException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,33 +18,39 @@ public class EmployeeMapperTest {
 
     @Test
     public void employeeToString() throws Exception {
-        Employee employee = new Employee(1, "Korek", "Laurek", 8, 1,2);
+        Employee employee = new Employee(1, "Korek", "Laurek", 8, 1, 2);
         assertEquals("1/Korek/Laurek/8/1/2", employeeMapper.employeeToString(employee));
         Employee employee2 = null;
         assertNull(employee2);
         assertTrue(employee2 == null);
         try {
             assertEquals(null, employeeMapper.employeeToString(employee2));
-        } catch (NullPointerException npe){
+        } catch (NullPointerException npe) {
             System.out.println("Null cannot be converted to String");
         }
     }
 
     @Test
     public void stringtoEmployee() throws Exception {
-        String employeeString =  "7/Dudu/Laurek/6/5/3";
+        String employeeString = "7/Dudu/Laurek/6/5/3";
         assertEquals(new Employee(7, "Dudu", "Laurek", 6, 5, 3),
                 employeeMapper.stringtoEmployee(employeeString));
         String employeeString2 = "8/Jan/Kowalski/X/Y/Z";
-       try {
+        try {
             assertEquals(null, employeeMapper.stringtoEmployee(employeeString2));
         } catch (NumberFormatException nfe) {
-           System.out.println(employeeString2.split("/")[0] + " cannot be converted to number OR ");
-           System.out.println(employeeString2.split("/")[3] + " cannot be converted to number OR");
-           System.out.println(employeeString2.split("/")[4] + " cannot be converted to number OR");
-           System.out.println(employeeString2.split("/")[5] + " cannot be converted to number. ");
-           }
-       }
-
-
+            System.out.println(employeeString2.split("/")[0] + " cannot be converted to number OR ");
+            System.out.println(employeeString2.split("/")[3] + " cannot be converted to number OR");
+            System.out.println(employeeString2.split("/")[4] + " cannot be converted to number OR");
+            System.out.println(employeeString2.split("/")[5] + " cannot be converted to number. ");
+        }
+        String employeeString3 = "9/Karol/Nowak/2/1";
+        try {
+            assertEquals(null, employeeMapper.stringtoEmployee(employeeString3));
+        } catch (EmployeeMapperException cme){
+            System.out.println("Source file does not contain essential information to create an Object. ");
+        }
     }
+
+
+}

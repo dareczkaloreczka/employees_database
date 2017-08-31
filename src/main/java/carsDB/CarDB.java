@@ -1,6 +1,7 @@
 package carsDB;
 
 import companiesDB.Company;
+import exceptions.CarMapperException;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -23,6 +24,8 @@ public class CarDB {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (CarMapperException e) {
             e.printStackTrace();
         }
         return carList;
