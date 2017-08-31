@@ -59,16 +59,10 @@ public class EmployeeDataBase {
             BufferedReader reader = new BufferedReader(new FileReader(EMPLOYEES));
             BufferedWriter writer = new BufferedWriter(new FileWriter(TEMP)); // zmienic plik na temp
             while ((line = reader.readLine()) != null) {
-                if (!(line.equals(toBeRemoved))) {
-                    int currentIndex = Integer.parseInt(line.split("/")[0]);
-                    int newIndex = currentIndex-1;
-                    if (currentIndex < employee.getId()){
-                        writer.write(line);
-                        writer.write("\n");
-                    } else{
-                        writer.write(newIndex + (line.substring(line.indexOf("/"))));
-                        writer.write("\n");
-                    }
+                int currentId = Integer.parseInt(line.split("/")[0]);
+                if (currentId != employee.getId()){
+                    writer.write(line);
+                    writer.write("\n");
                 }
             }
             writer.close();
