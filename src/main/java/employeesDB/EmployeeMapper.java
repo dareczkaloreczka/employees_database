@@ -3,6 +3,8 @@ package employeesDB;
 import exceptions.EmployeeMapperException;
 import exceptions.NegativeNumberException;
 
+import javax.swing.*;
+
 public class EmployeeMapper {
 
     private static final int ID_IDX = 0;
@@ -30,7 +32,7 @@ public class EmployeeMapper {
             employee = new Employee(Integer.parseInt(employeeArray[ID_IDX]), employeeArray[NAME_IDX], employeeArray[SURNAME_IDX], Integer.parseInt(employeeArray[AGE_IDX]),
                     Integer.parseInt(employeeArray[COMPANY_IDX]),Integer.parseInt(employeeArray[CAR_IDX]));
         } catch (NegativeNumberException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
 
         return employee;

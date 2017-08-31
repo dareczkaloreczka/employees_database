@@ -2,7 +2,9 @@ package companiesDB;
 
 
 import exceptions.CompanyMapperException;
+import jdk.nashorn.internal.scripts.JO;
 
+import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,11 +24,11 @@ public class CompanyDB {
             }
             companyReader.close();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Request file does not exist");
         } catch (IOException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Access denied.");
         } catch (CompanyMapperException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
         return companyList;
     }
@@ -39,7 +41,7 @@ public class CompanyDB {
             }
             writer.close();
         } catch (IOException e1) {
-            e1.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Access denied.");
         }
     }
 }

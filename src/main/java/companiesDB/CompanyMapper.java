@@ -3,6 +3,8 @@ package companiesDB;
 import exceptions.CompanyMapperException;
 import exceptions.NegativeNumberException;
 
+import javax.swing.*;
+
 public class CompanyMapper {
 
     private static final int ID_IDX = 0;
@@ -26,7 +28,7 @@ public class CompanyMapper {
             company = new Company(Integer.parseInt(companyArray[ID_IDX]), companyArray[NAME_IDX],
                     companyArray[ADDRESS_IDX], Integer.parseInt(companyArray[NOE_IDX]));
         } catch (NegativeNumberException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
 
         return company;

@@ -3,6 +3,7 @@ package carsDB;
 import companiesDB.Company;
 import exceptions.CarMapperException;
 
+import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,11 +23,11 @@ public class CarDB {
             }
             carReader.close();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Requested file does not exist.");
         } catch (IOException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Access denied.");
         } catch (CarMapperException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
         return carList;
     }
@@ -39,7 +40,7 @@ public class CarDB {
             }
             writer.close();
         } catch (IOException e1) {
-            e1.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Access denied.");
         }
     }
 }

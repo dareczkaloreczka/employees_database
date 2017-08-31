@@ -6,6 +6,7 @@ import companiesDB.Company;
 import companiesDB.CompanyDB;
 import exceptions.EmployeeMapperException;
 
+import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,11 +33,11 @@ public class EmployeeDataBase {
             }
             employeeReader.close();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Requested file does not exist.");
         } catch (IOException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Access denied.");
         } catch (EmployeeMapperException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
         return employeeList;
     }
@@ -50,7 +51,7 @@ public class EmployeeDataBase {
             }
             writer.close();
         } catch (IOException e1) {
-            e1.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Access denied.");
         }
     }
 
@@ -71,9 +72,9 @@ public class EmployeeDataBase {
             writer.close();
             reader.close();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Requested file does not exist.");
         } catch (IOException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Access denied.");
         }
         boolean successfull = source.delete();
         boolean successfull2 = temp.renameTo(source);
