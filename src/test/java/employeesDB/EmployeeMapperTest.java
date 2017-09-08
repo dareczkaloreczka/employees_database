@@ -1,6 +1,7 @@
 package employeesDB;
 
 import exceptions.EmployeeMapperException;
+import exceptions.NegativeNumberException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,14 +21,14 @@ public class EmployeeMapperTest {
     public void employeeToString() throws Exception {
         Employee employee = new Employee(1, "Korek", "Laurek", 8, 1, 2);
         assertEquals("1/Korek/Laurek/8/1/2", employeeMapper.employeeToString(employee));
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testEmployeeToStringThrowsNPException() {
         Employee employee2 = null;
         assertNull(employee2);
         assertTrue(employee2 == null);
-        try {
-            assertEquals(null, employeeMapper.employeeToString(employee2));
-        } catch (NullPointerException npe) {
-            System.out.println("Null cannot be converted to String");
-        }
+        assertEquals(null, employeeMapper.employeeToString(employee2));
     }
 
     @Test
@@ -35,20 +36,29 @@ public class EmployeeMapperTest {
         String employeeString = "7/Dudu/Laurek/6/5/3";
         assertEquals(new Employee(7, "Dudu", "Laurek", 6, 5, 3),
                 employeeMapper.stringtoEmployee(employeeString));
+    }
+    @Test(expected = NegativeNumberException.class)
+    public void testStringToEmployeeThrowsNNException() throws EmployeeMapperException, NegativeNumberException {
+        String employeeString = "7/Dudu/Laurek/-6/5/3";
+        assertEquals(new Employee(7, "Dudu", "Laurek", -6, 5, 3),
+                employeeMapper.stringtoEmployee(employeeString));
+
+    }
+
+    @Test(expected = EmployeeMapperException.class)
+    public void testStringToEmployeeThrowsCMException() throws EmployeeMapperException{
+        String employeeString3 = "9/Karol/Nowak/2/1";
+        assertEquals(null, employeeMapper.stringtoEmployee(employeeString3));
+    }
+
+    @Test
+    public void testStringToEmployeeThrowsNFException() throws EmployeeMapperException, NegativeNumberException {
         String employeeString2 = "8/Jan/Kowalski/X/Y/Z";
         try {
             assertEquals(null, employeeMapper.stringtoEmployee(employeeString2));
+            fail("expected exception was not occured");
         } catch (NumberFormatException nfe) {
-            System.out.println(employeeString2.split("/")[0] + " cannot be converted to number OR ");
-            System.out.println(employeeString2.split("/")[3] + " cannot be converted to number OR");
-            System.out.println(employeeString2.split("/")[4] + " cannot be converted to number OR");
-            System.out.println(employeeString2.split("/")[5] + " cannot be converted to number. ");
-        }
-        String employeeString3 = "9/Karol/Nowak/2/1";
-        try {
-            assertEquals(null, employeeMapper.stringtoEmployee(employeeString3));
-        } catch (EmployeeMapperException cme){
-            System.out.println("Source file does not contain essential information to create an Object. ");
+
         }
     }
 

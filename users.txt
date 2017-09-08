@@ -4,4 +4,3 @@
 4/Pablo/Cortez/26/6/2
 5/Hugo/Garcia/55/1/1
 6/Nastya/Ivanovna/23/2/2
-8/Piere/Larouqe/35/4/4
