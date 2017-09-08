@@ -184,7 +184,13 @@ public class EmployeeView extends JFrame {
                 if (employeeJtable.getSelectedRow() > -1) {
                     int row = employeeJtable.getSelectedRow();
                     int index = Integer.parseInt((String) employeeJtable.getModel().getValueAt(row, 0));
-                    employeeDataBase.removeEmployeeFromDB(employeeList.get(index - 1));
+                    Employee em = null;
+                    for (Employee employee : employeeList){
+                        if (employee.getId() == index){
+                            em = employee;
+                        }
+                    }
+                    employeeDataBase.removeEmployeeFromDB(employeeList.get(employeeList.indexOf(em)));
                     EmployeeView.employeeTableModel.setRowCount(0);
                     EmployeeView.setCurrentView();
                 }
@@ -197,7 +203,8 @@ public class EmployeeView extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 Employee newEmployee = null;
                 try {
-                    newEmployee = new Employee(employeeList.size() + 1, insertName.getText(), insertSurname.getText(),
+                    int nextID = employeeList.get(employeeList.size() - 1).getId() + 1;
+                    newEmployee = new Employee(nextID, insertName.getText(), insertSurname.getText(),
                             Integer.parseInt(insertAge.getText()), Integer.parseInt(insertCompanyId.getText()), Integer.parseInt(insertCarId.getText()));
                     employeeList.add(newEmployee);
                     employeeDataBase.saveEmployeeToDB(newEmployee);
@@ -220,7 +227,8 @@ public class EmployeeView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Car newCar = null;
-                newCar = new Car(carList.size() + 1, insertBrand.getText(), insertModel.getText(),
+                int nextId = carList.get(carList.size() - 1).getId() +1;
+                newCar = new Car(nextId , insertBrand.getText(), insertModel.getText(),
                         insertYear.getText(), insertRegBoard.getText());
                 carList.add(newCar);
                 carDB.saveCarToDB(newCar);
@@ -236,40 +244,47 @@ public class EmployeeView extends JFrame {
         });
 
         addCompanyButton.addActionListener(new ActionListener() {
-                @Override
-                  public void actionPerformed(ActionEvent e) {
-                    Company newCompany = null;
-                    try {
-                         newCompany = new Company(companyList.size() + 1, insertCompanyName.getText(),
-                         insertaddress.getText(), Integer.parseInt(insertNoE.getText()));
-                        companyList.add(newCompany);
-                        companyDB.saveCompanyToDB(newCompany);
-                        } catch (NegativeNumberException e1) {
-                            JOptionPane.showMessageDialog(null, "Number of employees must be a positive number!");
-                        }
-
-                    insertCompanyName.setText("Company name:");
-                    insertaddress.setText("Address:");
-                    insertNoE.setText("Number of employees:");
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Company newCompany = null;
+                try {
+                    int nextId = companyList.get(companyList.size() - 1).getId();
+                    newCompany = new Company(nextId, insertCompanyName.getText(),
+                            insertaddress.getText(), Integer.parseInt(insertNoE.getText()));
+                    companyList.add(newCompany);
+                    companyDB.saveCompanyToDB(newCompany);
+                } catch (NegativeNumberException e1) {
+                    JOptionPane.showMessageDialog(null, "Number of employees must be a positive number!");
                 }
+
+                insertCompanyName.setText("Company name:");
+                insertaddress.setText("Address:");
+                insertNoE.setText("Number of employees:");
+            }
         });
 
         employeeJtable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-                    @Override
-                    public void valueChanged(ListSelectionEvent e) {
-                        if (employeeJtable.getSelectedRow() > -1) {
-                            int row = employeeJtable.getSelectedRow();
-                            int index = Integer.parseInt((String) employeeJtable.getModel().getValueAt(row, 0));
-                            Employee em = employeeList.get(index - 1);
-                            showNameAndSurname.setText(em.getName() + " " + em.getSurname());
-                            showAge.setText(String.valueOf(em.getAge()));
-                            showCar.setText(em.getCar().getProductionYear() + " " + em.getCar().getBrand()
-                                    + " " + em.getCar().getModel() + "\n" + em.getCar().getRegBoard());
-                            showCompany.setText(em.getCompany().getName() + "\n" + em.getCompany().getAddress() + "\n"
-                                    + "number of employees: " + String.valueOf(em.getCompany().getNumberOfEmployees()));
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (employeeJtable.getSelectedRow() > -1) {
+                    int row = employeeJtable.getSelectedRow();
+                    int index = Integer.parseInt((String) employeeJtable.getModel().getValueAt(row, 0));
+                    Employee em = null;
+                    for (Employee employee : employeeList){
+                        if (employee.getId() == index){
+                            em = employee;
                         }
                     }
-                });
+                    //Employee em = employeeList.get(index - 1);
+                    showNameAndSurname.setText(em.getName() + " " + em.getSurname());
+                    showAge.setText(String.valueOf(em.getAge()));
+                    showCar.setText(em.getCar().getProductionYear() + " " + em.getCar().getBrand()
+                            + " " + em.getCar().getModel() + "\n" + em.getCar().getRegBoard());
+                    showCompany.setText(em.getCompany().getName() + "\n" + em.getCompany().getAddress() + "\n"
+                            + "number of employees: " + String.valueOf(em.getCompany().getNumberOfEmployees()));
+                }
+            }
+        });
 
     }
     public static void setCurrentView() {

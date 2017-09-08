@@ -1,6 +1,9 @@
 package employeesDB;
 
+import exceptions.EmployeeMapperException;
 import exceptions.NegativeNumberException;
+
+import javax.swing.*;
 
 public class EmployeeMapper {
 
@@ -19,14 +22,17 @@ public class EmployeeMapper {
         return employeeLine;
     }
 
-    public Employee stringtoEmployee(String line){
+    public Employee stringtoEmployee(String line) throws EmployeeMapperException{
         String[] employeeArray = line.split("/");
+        if (employeeArray.length != 6){
+            throw new EmployeeMapperException("Invalid data format");
+        }
         Employee employee = null;
         try {
             employee = new Employee(Integer.parseInt(employeeArray[ID_IDX]), employeeArray[NAME_IDX], employeeArray[SURNAME_IDX], Integer.parseInt(employeeArray[AGE_IDX]),
                     Integer.parseInt(employeeArray[COMPANY_IDX]),Integer.parseInt(employeeArray[CAR_IDX]));
         } catch (NegativeNumberException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
 
         return employee;

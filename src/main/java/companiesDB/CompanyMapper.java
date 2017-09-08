@@ -1,6 +1,9 @@
 package companiesDB;
 
+import exceptions.CompanyMapperException;
 import exceptions.NegativeNumberException;
+
+import javax.swing.*;
 
 public class CompanyMapper {
 
@@ -15,14 +18,17 @@ public class CompanyMapper {
         return companyLine;
     }
 
-    public Company stringToCompany(String line){
+    public Company stringToCompany(String line) throws CompanyMapperException {
         String[] companyArray = line.split("/");
+        if (companyArray.length != 4){
+            throw new CompanyMapperException("Invalid data format");
+        }
         Company company = null;
         try {
             company = new Company(Integer.parseInt(companyArray[ID_IDX]), companyArray[NAME_IDX],
                     companyArray[ADDRESS_IDX], Integer.parseInt(companyArray[NOE_IDX]));
         } catch (NegativeNumberException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
 
         return company;
