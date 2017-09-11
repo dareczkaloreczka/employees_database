@@ -1,7 +1,6 @@
 package carsDB;
 
 import exceptions.CarMapperException;
-import exceptions.NegativeNumberException;
 import org.junit.Before;
 import org.junit.Test;
 

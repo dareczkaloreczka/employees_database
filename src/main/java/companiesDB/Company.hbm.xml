@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="companiesDB">
+
+    <class name="Company" table="companies">
+
+        <id name="id" column="CompanyId">
+            <generator class="native"/>
+        </id>
+
+        <property name="name" column="CompanyName"/>
+
+        <property name="address" column="Address"/>
+        <property name="numberOfEmployees" column="NumberOfEmployees"/>
+
+    </class>
+
+</hibernate-mapping>

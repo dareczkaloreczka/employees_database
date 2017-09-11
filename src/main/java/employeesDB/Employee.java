@@ -2,15 +2,31 @@ package employeesDB;
 import carsDB.Car;
 import companiesDB.Company;
 import exceptions.NegativeNumberException;
+import javax.persistence.*;
 
+
+@Entity
+@Table(name = "employees")
 public class Employee {
 
+
+    @Column(name="Id", unique=true)
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
+    @Column(name = "Name")
     private String name;
+    @Column (name = "Surname")
     private String surname;
+    @Column (name = "Age")
     private int age;
+    @OneToOne
+    @JoinColumn(name="CompanyId")
     private Company company;
+    @OneToOne
+    @JoinColumn(name="CarId")
     private Car car;
+    @Transient
     private EmployeeDataBase employeeDataBase = new EmployeeDataBase();
 
     public Employee(int id, String name, String surname, int age, int companyId, int carId)  throws NegativeNumberException {

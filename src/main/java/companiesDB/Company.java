@@ -2,11 +2,26 @@ package companiesDB;
 
 import exceptions.NegativeNumberException;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table (name = "companies")
 public class Company {
 
+    @Column(name="CompanyId", unique=true)
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
+    @Column (name = "CompanyName")
     private String name;
+    @Column (name = "Address")
     private String address;
+    @Column (name = "NumberOfEmployees")
     private int numberOfEmployees;
 
     public Company(int id, String name, String address, int numberOfEmployees) throws NegativeNumberException {

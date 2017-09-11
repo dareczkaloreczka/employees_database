@@ -1,11 +1,27 @@
 package carsDB;
-import exceptions.NegativeNumberException;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table (name = "cars")
 public class Car {
 
+    @Column(name="CarId", unique=true)
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
+    @Column(name = "Brand")
     private String brand;
+    @Column(name = "Model")
     private String model;
+    @Column (name = "ProductionYear")
     private String productionYear;
+    @Column (name = "RegBoard")
     private String regBoard;
 
     public Car(int id, String brand, String model, String productionYear, String regBoard) {
