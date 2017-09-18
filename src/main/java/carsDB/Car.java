@@ -8,20 +8,18 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table (name = "cars")
 public class Car {
 
-    @Column(name="CarId", unique=true)
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
-    @Column(name = "Brand")
+    @Column
     private String brand;
-    @Column(name = "Model")
+    @Column
     private String model;
-    @Column (name = "ProductionYear")
+    @Column
     private String productionYear;
-    @Column (name = "RegBoard")
+    @Column
     private String regBoard;
 
     public Car(int id, String brand, String model, String productionYear, String regBoard) {
@@ -30,6 +28,9 @@ public class Car {
         this.model = model;
         this.productionYear = productionYear;
         this.regBoard = regBoard;
+    }
+
+    public Car() {
     }
 
     @Override
@@ -74,5 +75,25 @@ public class Car {
 
     public String getRegBoard() {
         return regBoard;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public void setProductionYear(String productionYear) {
+        this.productionYear = productionYear;
+    }
+
+    public void setRegBoard(String regBoard) {
+        this.regBoard = regBoard;
     }
 }

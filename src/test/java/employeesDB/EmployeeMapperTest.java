@@ -1,3 +1,4 @@
+/*
 package employeesDB;
 
 import exceptions.EmployeeMapperException;
@@ -63,4 +64,4 @@ public class EmployeeMapperTest {
     }
 
 
-}
+}*/

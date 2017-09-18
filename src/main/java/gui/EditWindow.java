@@ -8,22 +8,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import carsDB.CarDB;
 import companiesDB.Company;
 import companiesDB.CompanyDB;
 import employeesDB.Employee;
-import employeesDB.EmployeeDataBase;
 import exceptions.NegativeNumberException;
 
 public class EditWindow extends JFrame {
 
     static CarDB carDB = new CarDB();
     static CompanyDB companyDB = new CompanyDB();
-    static EmployeeDataBase employeeDataBase = new EmployeeDataBase();
-    static List<Car> cars = carDB.getCarListFromDB();
-    static List<Company> companies = companyDB.getCompanyListFromDB();
-    static List<Employee> employeeList = employeeDataBase.getEmployeeListFromDB();
+    static List<Car> cars;
+    static List<Company> companies;
     static JTextArea name;
     static JTextArea surname;
     static JTextArea age;
@@ -31,6 +27,8 @@ public class EditWindow extends JFrame {
     static JComboBox<String> companyList;
 
     public EditWindow(Employee em) throws HeadlessException {
+        cars = carDB.getCarListFromDB();
+        companies = companyDB.getCompanyListFromDB();
 
         setSize(400, 250);
         setTitle("Edit employee data");
@@ -53,7 +51,8 @@ public class EditWindow extends JFrame {
         submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-              editEmployee(em);
+                editEmployee(em);
+                setVisible(false);
             }
         });
 
@@ -106,7 +105,7 @@ public class EditWindow extends JFrame {
         }
 
 
-        EmployeeView.employeeDataBase.saveEmployeeToDB(em);
+        EmployeeView.employeeDB.saveEmployeeToDB(em);
         EmployeeView.employeeTableModel.setRowCount(0);
         EmployeeView.setCurrentView();
 

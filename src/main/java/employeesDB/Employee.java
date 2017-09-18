@@ -6,39 +6,25 @@ import javax.persistence.*;
 
 
 @Entity
-@Table(name = "employees")
 public class Employee {
 
-
-    @Column(name="Id", unique=true)
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
-    @Column(name = "Name")
+    @Column
     private String name;
-    @Column (name = "Surname")
+    @Column
     private String surname;
-    @Column (name = "Age")
+    @Column
     private int age;
     @OneToOne
-    @JoinColumn(name="CompanyId")
+    @JoinColumn
     private Company company;
     @OneToOne
-    @JoinColumn(name="CarId")
+    @JoinColumn
     private Car car;
-    @Transient
-    private EmployeeDataBase employeeDataBase = new EmployeeDataBase();
 
-    public Employee(int id, String name, String surname, int age, int companyId, int carId)  throws NegativeNumberException {
-        if (id <= 0 || age < 0 || companyId <=0 || carId <= 0) {
-            throw new NegativeNumberException("Id's and age must be positive numbers.");
-        }
-        this.id = id;
-        this.name = name;
-        this.surname = surname;
-        this.age = age;
-        this.company = employeeDataBase.idToCompany(companyId);
-        this.car = employeeDataBase.idToCar(carId);
+    public Employee() {
     }
 
     @Override
@@ -68,17 +54,6 @@ public class Employee {
 
     public Car getCar() {
         return car;
-    }
-
-    public void setNewValue(Employee employee)throws NegativeNumberException{
-        if (id <= 0 || age < 0 ) {
-            throw new NegativeNumberException("Id and age must be positive numbers.");
-        }
-        this.id = employee.id;
-        this.name = employee.name;
-        this.surname = employee.surname;
-        this.car = employee.car;
-        this.company = employee.company;
     }
 
 

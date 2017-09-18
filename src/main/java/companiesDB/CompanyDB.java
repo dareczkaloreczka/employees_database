@@ -1,47 +1,35 @@
 package companiesDB;
 
-
-import exceptions.CompanyMapperException;
-import jdk.nashorn.internal.scripts.JO;
-
-import javax.swing.*;
-import java.io.*;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CompanyDB {
     List<Company> companyList;
-    CompanyMapper companyMapper = new CompanyMapper();
-    private static final String COMPANIES = "companies.txt";
-    private static File source = new File(COMPANIES);
+    EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("employeesDB");
+    EntityManager entityManager = entityManagerFactory.createEntityManager();
+
 
     public List<Company> getCompanyListFromDB(){
         companyList = new ArrayList<>();
-        String line;
-        try (BufferedReader companyReader = new BufferedReader(new FileReader(source))) {
-            while ((line = companyReader.readLine()) != null) {
-                companyList.add(companyMapper.stringToCompany(line));
-            }
-            companyReader.close();
-        } catch (FileNotFoundException e) {
-            JOptionPane.showMessageDialog(null, "Request file does not exist");
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Access denied.");
-        } catch (CompanyMapperException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
+        TypedQuery<Company> query = entityManager.createQuery("select c from Company c", Company.class);
+        companyList = query.getResultList();
+
         return companyList;
     }
     public void saveCompanyToDB(Company company){
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(source));
-            for (Company comp : companyList){
-                writer.write(companyMapper.companyToString(comp));
-                writer.write("\n");
-            }
-            writer.close();
-        } catch (IOException e1) {
-            JOptionPane.showMessageDialog(null, "Access denied.");
-        }
+        entityManager.getTransaction().begin();
+        entityManager.persist(company);
+        entityManager.getTransaction().commit();
+
+    }
+    public  Company getCompanyById (int id){
+        entityManager.getTransaction().begin();
+        Company company = entityManager.find(Company.class, id);
+        entityManager.getTransaction().commit();
+        return company;
     }
 }

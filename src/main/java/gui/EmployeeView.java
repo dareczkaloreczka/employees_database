@@ -5,8 +5,7 @@ import carsDB.CarDB;
 import companiesDB.Company;
 import companiesDB.CompanyDB;
 import employeesDB.Employee;
-import employeesDB.EmployeeDataBase;
-import employeesDB.EmployeeMapper;
+import employeesDB.EmployeeDB;
 import exceptions.NegativeNumberException;
 
 import javax.swing.*;
@@ -22,7 +21,7 @@ public class EmployeeView extends JFrame {
 
     public EmployeeView() throws HeadlessException {
 
-        inicjalizacja();
+        init();
     }
 
     static List<Employee> employeeList;
@@ -35,12 +34,11 @@ public class EmployeeView extends JFrame {
     JTextField insertAge;
     JTextField insertCompanyId;
     JTextField insertCarId;
-    static EmployeeDataBase employeeDataBase = new EmployeeDataBase();
+    static EmployeeDB employeeDB = new EmployeeDB();
     static CarDB carDB = new CarDB();
     static CompanyDB companyDB = new CompanyDB();
-    static EmployeeMapper employeeMapper = new EmployeeMapper();
 
-    private void inicjalizacja() {
+    private void init() {
 
 
         setTitle("Employees Database");
@@ -168,8 +166,8 @@ public class EmployeeView extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (employeeJtable.getSelectedRow() > -1) {
                     int row = employeeJtable.getSelectedRow();
-                    int index = Integer.parseInt((String) employeeJtable.getModel().getValueAt(row, 0));
-                    Employee em = employeeList.get(index - 1);
+                    int id = Integer.parseInt((String) employeeJtable.getModel().getValueAt(row, 0));
+                    Employee em = employeeDB.getEmployeeById(id);
                     EditWindow editWindow = new EditWindow(em);
                     editWindow.setVisible(true);
 
@@ -190,7 +188,7 @@ public class EmployeeView extends JFrame {
                             em = employee;
                         }
                     }
-                    employeeDataBase.removeEmployeeFromDB(employeeList.get(employeeList.indexOf(em)));
+                    employeeDB.removeEmployeeFromDB(employeeList.get(employeeList.indexOf(em)));
                     EmployeeView.employeeTableModel.setRowCount(0);
                     EmployeeView.setCurrentView();
                 }
@@ -201,16 +199,26 @@ public class EmployeeView extends JFrame {
         addUserButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Employee newEmployee = null;
+                Employee newEmployee = new Employee();
+                newEmployee.setName(insertName.getText());
+                newEmployee.setSurname(insertSurname.getText());
                 try {
+                    newEmployee.setAge(Integer.parseInt(insertAge.getText()));
+                } catch (NegativeNumberException e1) {
+                    JOptionPane.showMessageDialog(null, "Age/ID must be a positive number!");
+                }
+                newEmployee.setCar(carDB.getCarById(Integer.parseInt(insertCarId.getText())));
+                newEmployee.setCompany(companyDB.getCompanyById(Integer.parseInt(insertCompanyId.getText())));
+                employeeDB.saveEmployeeToDB(newEmployee);
+               /* try {
                     int nextID = employeeList.get(employeeList.size() - 1).getId() + 1;
                     newEmployee = new Employee(nextID, insertName.getText(), insertSurname.getText(),
                             Integer.parseInt(insertAge.getText()), Integer.parseInt(insertCompanyId.getText()), Integer.parseInt(insertCarId.getText()));
                     employeeList.add(newEmployee);
-                    employeeDataBase.saveEmployeeToDB(newEmployee);
+                    employeeDB.saveEmployeeToDB(newEmployee);
                 } catch (NegativeNumberException e1) {
                     JOptionPane.showMessageDialog(null, "Age/ID must be a positive number!");
-                }
+                }*/
                 insertName.setText("Insert first name:");
                 insertAge.requestFocus();
                 insertSurname.setText("Last Name:");
@@ -226,11 +234,17 @@ public class EmployeeView extends JFrame {
         addCarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Car newCar = null;
+               /* Car newCar = null;
                 int nextId = carList.get(carList.size() - 1).getId() +1;
                 newCar = new Car(nextId , insertBrand.getText(), insertModel.getText(),
                         insertYear.getText(), insertRegBoard.getText());
-                carList.add(newCar);
+                carList.add(newCar);*/
+                Car newCar = new Car();
+                newCar.setBrand(insertBrand.getText());
+                newCar.setModel(insertModel.getText());
+                newCar.setRegBoard(insertRegBoard.getText());
+                newCar.setProductionYear(insertYear.getText());
+
                 carDB.saveCarToDB(newCar);
                 insertBrand.setText("Brand:");
                 insertModel.setText("Model:");
@@ -246,8 +260,12 @@ public class EmployeeView extends JFrame {
         addCompanyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Company newCompany = null;
-                try {
+                Company newCompany = new Company();
+                newCompany.setName(insertCompanyName.getText());
+                newCompany.setAddress(insertaddress.getText());
+                newCompany.setNumberOfEmployees(Integer.parseInt(insertNoE.getText()));
+                companyDB.saveCompanyToDB(newCompany);
+               /* try {
                     int nextId = companyList.get(companyList.size() - 1).getId();
                     newCompany = new Company(nextId, insertCompanyName.getText(),
                             insertaddress.getText(), Integer.parseInt(insertNoE.getText()));
@@ -255,7 +273,7 @@ public class EmployeeView extends JFrame {
                     companyDB.saveCompanyToDB(newCompany);
                 } catch (NegativeNumberException e1) {
                     JOptionPane.showMessageDialog(null, "Number of employees must be a positive number!");
-                }
+                }*/
 
                 insertCompanyName.setText("Company name:");
                 insertaddress.setText("Address:");
@@ -289,7 +307,7 @@ public class EmployeeView extends JFrame {
     }
     public static void setCurrentView() {
 
-        employeeList = employeeDataBase.getEmployeeListFromDB();
+        employeeList = employeeDB.getEmployeeListFromDB();
         carList = carDB.getCarListFromDB();
         companyList = companyDB.getCompanyListFromDB();
         for (Employee employee : employeeList) {

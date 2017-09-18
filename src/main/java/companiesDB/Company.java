@@ -1,27 +1,24 @@
 package companiesDB;
 
 import exceptions.NegativeNumberException;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
+
 
 @Entity
-@Table (name = "companies")
 public class Company {
 
-    @Column(name="CompanyId", unique=true)
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
-    @Column (name = "CompanyName")
+    @Column
     private String name;
-    @Column (name = "Address")
+    @Column
     private String address;
-    @Column (name = "NumberOfEmployees")
+    @Column
     private int numberOfEmployees;
 
     public Company(int id, String name, String address, int numberOfEmployees) throws NegativeNumberException {
@@ -33,6 +30,9 @@ public class Company {
             this.address = address;
             this.numberOfEmployees = numberOfEmployees;
 
+    }
+
+    public Company() {
     }
 
     @Override
@@ -71,5 +71,18 @@ public class Company {
 
     public int getNumberOfEmployees() {
         return numberOfEmployees;
+    }
+
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setNumberOfEmployees(int numberOfEmployees) {
+        this.numberOfEmployees = numberOfEmployees;
     }
 }
