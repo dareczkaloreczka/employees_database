@@ -40,10 +40,10 @@ public class EditWindow extends JFrame {
         JLabel ageLabel = new JLabel("Age: ");
          age = new JTextArea(String.valueOf(em.getAge()));
         JLabel carLabel = new JLabel("Car: ");
-        List<String> carNames = cars.stream().map(car -> car.getBrand() + " " + car.getModel()).collect(Collectors.toList());
+        List<String> carNames = cars.stream().map(car -> car.getId() + ". " + car.getBrand() + " " + car.getModel()).collect(Collectors.toList());
          carList = new JComboBox(carNames.toArray());
         JLabel companyLabel = new JLabel("Company: ");
-        List companyNames = companies.stream().map(company -> company.getName()).collect(Collectors.toList());
+        List companyNames = companies.stream().map(company -> company.getId() + ". " + company.getName()).collect(Collectors.toList());
          companyList = new JComboBox(companyNames.toArray());
         JButton submit = new JButton("Submit");
         JButton cancel = new JButton("Cancel");
@@ -92,23 +92,21 @@ public class EditWindow extends JFrame {
     }
 
 
-    public static Employee editEmployee (Employee em){
-        em.setName(name.getText());
-        em.setSurname(surname.getText());
+    public static void editEmployee (Employee em){
         try {
             em.setAge(Integer.parseInt(age.getText()));
             em.setName(name.getText());
             em.setSurname(surname.getText());
+            em.setCompany(companyDB.getCompanyById(Integer.parseInt(((String)companyList.getSelectedItem()).substring(0,1))));
+            em.setCar(carDB.getCarById(Integer.parseInt(((String)carList.getSelectedItem()).substring(0,1))));
+
+
+            EmployeeView.employeeDB.updateEmployee(em);
 
         } catch (NegativeNumberException e) {
             JOptionPane.showMessageDialog(null, "Age/ID must be a positive number!");
         }
-
-
-        EmployeeView.employeeDB.saveEmployeeToDB(em);
         EmployeeView.employeeTableModel.setRowCount(0);
         EmployeeView.setCurrentView();
-
-        return em;
     }
 }

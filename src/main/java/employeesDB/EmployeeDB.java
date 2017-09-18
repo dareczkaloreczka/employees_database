@@ -1,5 +1,7 @@
 package employeesDB;
 
+import exceptions.NegativeNumberException;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -40,5 +42,11 @@ public class EmployeeDB {
         Employee employee = entityManager.find(Employee.class, id);
         entityManager.getTransaction().commit();
         return employee;
+    }
+    public void updateEmployee(Employee employee) throws NegativeNumberException {
+        entityManager.getTransaction().begin();
+        Employee updated = entityManager.find(Employee.class, employee.getId());
+        updated.turnInto(employee);
+        entityManager.getTransaction().commit();
     }
 }

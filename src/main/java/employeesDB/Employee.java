@@ -81,6 +81,13 @@ public class Employee {
         this.car = car;
     }
 
+    public void turnInto(Employee employee) throws NegativeNumberException {
+        setName(employee.name);
+        setSurname(employee.surname);
+        setAge(employee.age);
+        setCar(employee.car);
+        setCompany(employee.company);
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
